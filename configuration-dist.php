@@ -32,6 +32,13 @@
     var $requests_per_hour = 5;
     var $requests_per_artist_per_hour = 3;
     var $requests_per_album_per_hour = 2;
+
+    // Allow requests by non-authenticated users
+    var $requests_open = true;
+    // Array of IP addresses allowed to request / modify volume
+    var $requests_restrict = Array();
+    // Hide login feature in top status bar
+    var $hidden_login = true;
     
     // HOURS BEFORE REPEATING RANDOMLY QUEUED TRACKS
     var $random_rotation = 5;
