@@ -35,15 +35,15 @@
         $track = new Track($_REQUEST['key']);             
         if ($q->isComingUp($_REQUEST['key'])) { 
           $response = "Track is already in upcoming queue";
-        } elseif ((!$rdio->loggedIn()) && (!isset($_REQUEST['oauth_token']))) {
-          $response = "You are not logged in to Rdio";
-        } else {
+        } elseif ($rdio->loggedIn() || isset($_REQUEST['oauth_token']) || (($c->requests_open===true) && in_array($_SERVER['REMOTE_ADDR'], $c->requests_restrict)))  {
           $e = $q->isRequestable($track);
           if ($e instanceof QueueError) {
             $response = $e->errorMessage;
           } else {
             $q->push($track, true, (isset($_REQUEST['userKey'])?$_REQUEST['userKey']:$_SESSION['user']->key), $_REQUEST['client'], $_REQUEST['dedicationName'], $_REQUEST['dedicationRecipient'], $_REQUEST['dedicationMessage']);
           }
+        } else {
+          $response = "Only Salt Mines workers may request songs";
         }
       }
       
@@ -92,6 +92,14 @@
       $listeners = User::getCurrentListeners(); 
       
       $return  = '{ ';
+      
+      $sqlx = "SELECT volume FROM volume WHERE `set`<NOW() AND (expires>NOW() OR expires IS NULL) ORDER BY (expires IS NULL), `set` DESC LIMIT 1";
+      $rs = $db->query($sqlx); 
+      
+      if (($rec = mysql_fetch_array($rs)) && is_numeric($rec['volume'])) {
+        $return .= '"volume" : '.$rec['volume'].', ';        
+      }   
+
       if (strlen($response)>0) $return .= '"response": '.json_encode($response).', ';
       $return .='"timestamp" : '.time().', "queue" : '.json_encode($tracks).', "listeners" : '.json_encode($listeners);
       if ($_SESSION['user']->isCurator) $return .= ', "pendingRequests": '.count(Collection::getPendingRequests()); 

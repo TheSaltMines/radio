@@ -13,6 +13,34 @@
   session_start();  
   authenticate();  
   
+  if (array_key_exists('v', $_REQUEST) && in_array($_SERVER['REMOTE_ADDR'], $c->requests_restrict)) {
+    $sqlx = "SELECT volume, expires, overridetoken FROM volume WHERE `set`<NOW() AND (expires>NOW() OR expires IS NULL) ORDER BY (expires IS NULL), `set` DESC LIMIT 1";
+    $rs = $db->query($sqlx);    
+    if (($rec = mysql_fetch_array($rs)) && (is_null($rec['expires']))) {
+      $curvolume = $rec['volume'];
+      
+      if (in_array(substr($_REQUEST['v'], 0, 1), Array('+', ' '))) {
+        $volume = $curvolume + substr($_REQUEST['v'], 1);
+      } elseif (substr($_REQUEST['v'], 0, 1)=='-') {
+        $volume = $curvolume - substr($_REQUEST['v'], 1);
+      } elseif (is_numeric($_REQUEST['v'])) {
+        $volume = $_REQUEST['v'];
+      }
+  
+      if (is_numeric($_REQUEST['duration'])) {
+        $overridetoken = substr(md5(microtime()),0,20);
+        $_SESSION['overridetoken'] = $overridetoken;
+        $sqlx = "INSERT INTO volume (volume, `set`, expires, overridetoken) VALUES (" . $volume . ", NOW(), DATE_ADD(NOW(), INTERVAL ".$_REQUEST['duration']." minute), '".$overridetoken."')";
+      } else {
+        $sqlx = "INSERT INTO volume (volume, `set`) VALUES (" . $volume . ', NOW())';
+      }
+      $db->query($sqlx);
+    } elseif ($_SESSION['overridetoken']==$rec['overridetoken']) {
+      $sqlx = "DELETE FROM volume WHERE overridetoken='" . $_SESSION['overridetoken'] . "' AND expires>NOW() LIMIT 1";
+      $db->query($sqlx);
+    }
+  }
+  
   if (array_key_exists('r', $_REQUEST)) {
     //! GET ALBUMS FROM A SPECIFIED ARTIST AND RETURN VIA JSON OBJECT  
     $args = array("artist"=>$_REQUEST['r'], "user"=>$c->rdio_collection_userkey);

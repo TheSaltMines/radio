@@ -1,0 +1,9 @@
+html, body { background: transparent !important; font-family: 'Roadgeek2005SeriesD', sans-serif !important; }
+a { font-family: 'Roadgeek2005SeriesD', sans-serif; }
+#toolbar { display: none !important; }
+#page { margin-left: 20px; margin-right: 0; width: auto !important; }
+#collection { display: none !important; }
+#now_playing, #intro { display: none !important; }
+#queue { width: auto !important; background: transparent !important; }
+#footer { display: none; }
+#title { display: block; margin: 0px auto; padding-top: 20px; font-size: 16px; line-height: 18px; color: #7E7E7E; text-transform: uppercase; }
