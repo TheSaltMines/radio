@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" ng-app>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title></title>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+	</head>
+	<body>
+    <div id="wrapper">
+      <div id="toolbar">
+        <div id="tools">      
+          <div id="nowplaying">
+            <span class="song_title">{{nowplaying.title}}</span> : <span class="song_artist">{{nowplaying.artist}}</span>
+  
+          </div>
+          <div id="ops">
+            <img class="player_mute" src="/theme/cramppbo/images/tools/sound_high.png" />
+            <span id="volume">
+              <img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="1" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="2" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="3" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="4" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="5" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="6" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="7" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="8" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="9" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="10" />
+            </span>
+            <span class="advanced">
+              <a href="/?op=login">Listen here</a>
+            </span>
+          </div>
+          <span class="nowlistening"><span class="indicators"></span><span class="listeners"></span></span>                      
+        </div>
+        <div class="progress"><div class="slider"></div></div>                  
+      </div>
+      <div id="page">
+        <div id="collection">
+          <div class="header">  
+            Request a song
+            <form action="/index.php" method="GET">
+              <input name="q" id="search" title="search" value="search" class="empty" />
+            </form>
+          </div>
+          <div id="browser">
+            <ul id="music">
+              <li class="heading">New Releases</li>
+              <li class="artist closed" id="thisweek">Week of June 24 </li>
+              <li class="artist closed" id="lastweek">Week of June 17</li>
+              <li class="artist closed" id="twoweeks">Week of June 10</li>
+              <li class="heading">Artists</li>              
+              <li class="artist closed" ng-repeat="artist in catalog.artists">{{artist.name}}</li>  
+            </ul>    
+            <div id="album">
+            </div>    
+          </div>
+        </div>
+        <div id="title">salt mines radio</div>
+        <div id="queue">
+          <div id="intro">
+            <h2>Welcome to salt mines radio!</h2>
+  
+            <p>We believe that good music is a key ingredient to productivity, and Salt Mines Radio is what fuels us. Here is what we're listening to right now, and what's coming up next. Click "Listen here" to listen along with us. Or, better yet, <a href="http://saltmines.us">join us at The Salt Mines</a> and listen and request along with us!</p>
+          </div>        
+          <div ng-repeat="track in queue" class="track">
+            <div style="background-image: url({{track.icon}});">
+              <div class="detail"></div>
+              <div class="title">
+                <div class="trackname">
+                  <a href="#!/{{track.artistKey}}/{{track.albumKey}}/{{track.key}}">{{track.name}}</a>
+                </div>
+                <div class="artist"><a href="#!/{{track.artistKey}}">{{track.artist}}</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="RdioStream"></div>
+      <div id="RdioPreview"></div>      
+      <div class="hidden">
+        <div id="popup">
+          <div id="message"></div>
+        </div>
+        <a href="#popup" id="popuplink"></a>
+    
+        <div id="howitworks1">
+          <img src="/images/howitworks/step1.png" align="right" vspace="5" />
+          <p>When you first get to salt mines radio and log in to your Rdio account, you'll start listening to the play queue. If you like what you see coming up, you don't have to do anything else! Just enjoy!</p>
+          <p>If you would like to add some specific songs to the upcoming queue, though, you can start by clicking on the "Request a song" bar at the top of the page.</p>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+    <div id="footer">
+      <div class="details">
+        &copy; 2014 salt mines radio      </div>
+      <div class="rdio">
+        Powered by <a href="http://click.linksynergy.com/fs-bin/click?id=Y5hfCBRENkU&offerid=221756&type=3&subid=0" target="_blank"><img src="/theme/cramppbo/images/RdioWhiteLogo.png" border="0" /></a>, <a href="http://typekit.com/colophons/goy0iya" target="_blank">fonts by Typekit</a>
+      </div>
+    </div>
+    <script type="text/javascript">
+    
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-1446018-10']);
+      _gaq.push(['_trackPageview']);
+    
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    
+    </script>    
+  </body>
+</html>
