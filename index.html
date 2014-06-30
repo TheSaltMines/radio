@@ -1,9 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" ng-app>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" ng-app="radioApp">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title></title>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+		<script type="text/javascript" src="app.js"></script>		
+		<script type="text/javascript" src="controllers/CatalogController.js"></script>
+		<script type="text/javascript" src="controllers/QueueController.js"></script>
 	</head>
 	<body>
     <div id="wrapper">
@@ -11,7 +14,6 @@
         <div id="tools">      
           <div id="nowplaying">
             <span class="song_title">{{nowplaying.title}}</span> : <span class="song_artist">{{nowplaying.artist}}</span>
-  
           </div>
           <div id="ops">
             <img class="player_mute" src="/theme/cramppbo/images/tools/sound_high.png" />
@@ -27,7 +29,7 @@
         <div class="progress"><div class="slider"></div></div>                  
       </div>
       <div id="page">
-        <div id="collection">
+        <div id="collection" ng-controller="CatalogController">
           <div class="header">  
             Request a song
             <form action="/index.php" method="GET">
@@ -36,32 +38,35 @@
           </div>
           <div id="browser">
             <ul id="music">
-              <li class="heading">New Releases</li>
-              <li class="artist closed" id="thisweek">Week of June 24 </li>
-              <li class="artist closed" id="lastweek">Week of June 17</li>
-              <li class="artist closed" id="twoweeks">Week of June 10</li>
               <li class="heading">Artists</li>              
-              <li class="artist closed" ng-repeat="artist in catalog.artists">{{artist.name}}</li>  
+              <li class="artist closed" ng-repeat="artist in artists" ng-click="getArtistDetail($event, artist.key)">{{artist.name}}</li>  
             </ul>    
             <div id="album">
+              <div class="album" ng-repeat="album in selectedArtist">
+                <img ng-src="{{album.icon}}" width="125" height="125" />
+                <div class="detail">
+                  <h1>{{album.artist}}: {{album.name}}</h1>
+                  <ol>
+                    <li class="track randomable" ng-repeat="track in album.tracks" value="{{track.trackNum}}">{{track.name}}</li>
+                  </ol>
+                </div>
+              </div>           
             </div>    
           </div>
         </div>
         <div id="title">salt mines radio</div>
-        <div id="queue">
+        <div id="queue" ng-controller="QueueController">
           <div id="intro">
             <h2>Welcome to salt mines radio!</h2>
   
             <p>We believe that good music is a key ingredient to productivity, and Salt Mines Radio is what fuels us. Here is what we're listening to right now, and what's coming up next. Click "Listen here" to listen along with us. Or, better yet, <a href="http://saltmines.us">join us at The Salt Mines</a> and listen and request along with us!</p>
           </div>        
           <div ng-repeat="track in queue" class="track">
-            <div style="background-image: url({{track.icon}});">
+            <div>
               <div class="detail"></div>
               <div class="title">
-                <div class="trackname">
-                  <a href="#!/{{track.artistKey}}/{{track.albumKey}}/{{track.key}}">{{track.name}}</a>
-                </div>
-                <div class="artist"><a href="#!/{{track.artistKey}}">{{track.artist}}</a></div>
+                <div class="trackname">{{track.name}}</div>
+                <div class="artist">{{track.artist}}</div>
               </div>
             </div>
           </div>
