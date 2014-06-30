@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" ng-app="radioApp">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">		
 		<title></title>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
 		<script type="text/javascript" src="app.js"></script>		
 		<script type="text/javascript" src="controllers/CatalogController.js"></script>
 		<script type="text/javascript" src="controllers/QueueController.js"></script>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" title="Bootstrap" type="text/css" media="screen" charset="utf-8">
 	</head>
 	<body>
+	  
     <div id="wrapper">
       <div id="toolbar">
         <div id="tools">      
@@ -28,50 +31,43 @@
         </div>
         <div class="progress"><div class="slider"></div></div>                  
       </div>
-      <div id="page">
-        <div id="collection" ng-controller="CatalogController">
-          <div class="header">  
-            Request a song
-            <form action="/index.php" method="GET">
-              <input name="q" id="search" title="search" value="search" class="empty" />
-            </form>
-          </div>
-          <div id="browser">
-            <ul id="music">
-              <li class="heading">Artists</li>              
-              <li class="artist closed" ng-repeat="artist in artists" ng-click="getArtistDetail($event, artist.key)">{{artist.name}}</li>  
-            </ul>    
-            <div id="album">
-              <div class="album" ng-repeat="album in selectedArtist">
-                <img ng-src="{{album.icon}}" width="125" height="125" />
-                <div class="detail">
-                  <h1>{{album.artist}}: {{album.name}}</h1>
-                  <ol>
-                    <li class="track randomable" ng-repeat="track in album.tracks" value="{{track.trackNum}}">{{track.name}}</li>
-                  </ol>
-                </div>
-              </div>           
-            </div>    
-          </div>
-        </div>
-        <div id="title">salt mines radio</div>
-        <div id="queue" ng-controller="QueueController">
-          <div id="intro">
-            <h2>Welcome to salt mines radio!</h2>
-  
-            <p>We believe that good music is a key ingredient to productivity, and Salt Mines Radio is what fuels us. Here is what we're listening to right now, and what's coming up next. Click "Listen here" to listen along with us. Or, better yet, <a href="http://saltmines.us">join us at The Salt Mines</a> and listen and request along with us!</p>
-          </div>        
-          <div ng-repeat="track in queue" class="track">
-            <div>
-              <div class="detail"></div>
-              <div class="title">
-                <div class="trackname">{{track.name}}</div>
-                <div class="artist">{{track.artist}}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
+      <section id="collection" ng-controller="CatalogController">
+        <h1>Collection</h1>
+        <section id="artists">
+          <h1>Artists <input type="text" ng-model="artistFilter" placeholder="Filter artists" /></h1>
+          <ul>
+            <li class="artist closed" ng-repeat="artist in artists | filter:artistFilter" ng-click="getArtistDetail($event, artist.key)">{{artist.name}}</li>  
+          </ul>
+        </section>    
+        <section id="albums" ng-show="selectedArtist.length>0">
+          <h1>Albums <input type="text" ng-model="albumFilter" placeholder="Find album, track" /></h1>
+          <ul>
+            <li ng-repeat="album in selectedArtist | filter:albumFilter">
+              <img ng-src="{{album.icon}}" width="125" height="125" />
+              <h2>{{album.artist}}: {{album.name}}</h2>
+              <ol>
+                <li ng-repeat="track in album.tracks" value="{{track.trackNum}}">{{track.name}}</li>
+              </ol>
+            </li>
+          </ul>
+        </section>
+      </section>
+      
+      <section id="queue" ng-controller="QueueController">
+        <h1>Upcoming</h1>
+        <aside>
+          <h2>Welcome to salt mines radio!</h2>
+          <p>We believe that good music is a key ingredient to productivity, and Salt Mines Radio is what fuels us. Here is what we're listening to right now, and what's coming up next. Click "Listen here" to listen along with us. Or, better yet, <a href="http://saltmines.us">join us at The Salt Mines</a> and listen and request along with us!</p>
+        </aside>      
+        <ol>
+          <li ng-repeat="track in queue">
+            <span class="name">{{track.name}}</span>
+            <span class="artist">{{track.artist}}</span>
+          </li>
+        </ol>
+      </section>
+      
       <div id="RdioStream"></div>
       <div id="RdioPreview"></div>      
       <div class="hidden">
@@ -88,14 +84,14 @@
         
       </div>
     </div>
-  </div>
-    <div id="footer">
+    
+    <footer>
       <div class="details">
         &copy; 2014 salt mines radio      </div>
       <div class="rdio">
         Powered by <a href="http://click.linksynergy.com/fs-bin/click?id=Y5hfCBRENkU&offerid=221756&type=3&subid=0" target="_blank"><img src="/theme/cramppbo/images/RdioWhiteLogo.png" border="0" /></a>, <a href="http://typekit.com/colophons/goy0iya" target="_blank">fonts by Typekit</a>
       </div>
-    </div>
+    </footer>
     <script type="text/javascript">
     
       var _gaq = _gaq || [];
