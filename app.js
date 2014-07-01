@@ -1,1 +1,1 @@
-var radioApp = angular.module('radioApp',[]);
+var radioApp = angular.module('radioApp',['filters']);

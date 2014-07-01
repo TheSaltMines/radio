@@ -1,4 +1,5 @@
 radioApp.controller('CatalogController', ['$scope', '$http', function($scope, $http) {
+  $scope.modalShown = false;
   $http.get('/data.php').success(function(data) {
     $scope.artists = data;
   });
@@ -8,4 +9,15 @@ radioApp.controller('CatalogController', ['$scope', '$http', function($scope, $h
       $scope.selectedArtist = data;
     });
   }
+  
+  $scope.getTrackDetail = function($event, $albumIndex, $trackIndex) {
+    $scope.selectedArtist.selectedAlbum = $scope.selectedArtist[$albumIndex];
+    $scope.selectedArtist.selectedAlbum.selectedTrack = $scope.selectedArtist.selectedAlbum.tracks[$trackIndex];
+    console.log($scope.selectedArtist.selectedAlbum);
+    $scope.toggleModal();
+  }
+  
+  $scope.toggleModal = function() {
+    $scope.modalShown = !$scope.modalShown;
+  };    
 }]);

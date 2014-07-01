@@ -8,83 +8,87 @@
 		<script type="text/javascript" src="app.js"></script>		
 		<script type="text/javascript" src="controllers/CatalogController.js"></script>
 		<script type="text/javascript" src="controllers/QueueController.js"></script>
+		<script type="text/javascript" src="directives.js"></script>
+		<script type="text/javascript" src="filters.js"></script>		
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" title="Bootstrap" type="text/css" media="screen" charset="utf-8">
+		<link rel="stylesheet" href="css/style.css" title="Local styles" type="text/css" media="screen" charset="utf-8">
+
+
+
 	</head>
-	<body>
-	  
-    <div id="wrapper">
-      <div id="toolbar">
-        <div id="tools">      
-          <div id="nowplaying">
-            <span class="song_title">{{nowplaying.title}}</span> : <span class="song_artist">{{nowplaying.artist}}</span>
+	<body>	  
+    <header>
+    </header>
+    <div class="container">
+      <div class="row">
+        <section id="collection" ng-controller="CatalogController">
+          <h1>Collection</h1>
+          <div class="col-md-6">
+            <section id="artists">
+              <h1>Artists <input type="text" ng-model="artistFilter" placeholder="filter" /></h1>
+              <ul>
+                <li class="artist closed" ng-repeat="artist in artists | filter:artistFilter" ng-click="getArtistDetail($event, artist.key)">{{artist.name}}</li>  
+              </ul>
+            </section>    
           </div>
-          <div id="ops">
-            <img class="player_mute" src="/theme/cramppbo/images/tools/sound_high.png" />
-            <span id="volume">
-              <img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="1" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="2" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="3" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="4" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="5" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="6" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="7" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="8" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="9" /><img src="/theme/cramppbo/images/volnotch.gif" alt="" rel="10" />
-            </span>
-            <span class="advanced">
-              <a href="/?op=login">Listen here</a>
-            </span>
+          <div class="col-md-6">
+            <section id="albums" ng-show="selectedArtist.length>0">
+              <h1>Albums <input type="text" ng-model="albumFilter" placeholder="filter" /></h1>
+              <ul>
+                <li ng-repeat="album in selectedArtist | filter:albumFilter">
+                  <img ng-src="{{album.icon}}" width="125" height="125" />
+                  <h2>{{album.artist}}: {{album.name}}</h2>
+                  <ol>
+                    <li ng-repeat="track in album.tracks" value="{{track.trackNum}}" ng-click="getTrackDetail($event, $parent.$index, $index)">{{track.name}}</li>
+                  </ol>
+                </li>
+              </ul>
+            </section>
           </div>
-          <span class="nowlistening"><span class="indicators"></span><span class="listeners"></span></span>                      
-        </div>
-        <div class="progress"><div class="slider"></div></div>                  
-      </div>
-      
-      <section id="collection" ng-controller="CatalogController">
-        <h1>Collection</h1>
-        <section id="artists">
-          <h1>Artists <input type="text" ng-model="artistFilter" placeholder="Filter artists" /></h1>
-          <ul>
-            <li class="artist closed" ng-repeat="artist in artists | filter:artistFilter" ng-click="getArtistDetail($event, artist.key)">{{artist.name}}</li>  
-          </ul>
-        </section>    
-        <section id="albums" ng-show="selectedArtist.length>0">
-          <h1>Albums <input type="text" ng-model="albumFilter" placeholder="Find album, track" /></h1>
-          <ul>
-            <li ng-repeat="album in selectedArtist | filter:albumFilter">
-              <img ng-src="{{album.icon}}" width="125" height="125" />
-              <h2>{{album.artist}}: {{album.name}}</h2>
-              <ol>
-                <li ng-repeat="track in album.tracks" value="{{track.trackNum}}">{{track.name}}</li>
-              </ol>
-            </li>
-          </ul>
+          <modal-dialog show="modalShown" width="750px" height="60%">
+            <h1>Track Details</h1>
+            <img ng-src="{{selectedArtist.selectedAlbum.selectedTrack.icon}}" />
+            <h2>{{selectedArtist.selectedAlbum.selectedTrack.name}}</h2>
+            <h3>{{selectedArtist.selectedAlbum.selectedTrack.artist}} - {{selectedArtist.selectedAlbum.name}}</h3>
+            <h4>{{selectedArtist.selectedAlbum.selectedTrack.duration | duration}}</h4>  
+          </modal-dialog>           
         </section>
-      </section>
-      
-      <section id="queue" ng-controller="QueueController">
-        <h1>Upcoming</h1>
-        <aside>
-          <h2>Welcome to salt mines radio!</h2>
-          <p>We believe that good music is a key ingredient to productivity, and Salt Mines Radio is what fuels us. Here is what we're listening to right now, and what's coming up next. Click "Listen here" to listen along with us. Or, better yet, <a href="http://saltmines.us">join us at The Salt Mines</a> and listen and request along with us!</p>
-        </aside>      
-        <ol>
-          <li ng-repeat="track in queue">
-            <span class="name">{{track.name}}</span>
-            <span class="artist">{{track.artist}}</span>
-          </li>
-        </ol>
-      </section>
-      
-      <div id="RdioStream"></div>
-      <div id="RdioPreview"></div>      
-      <div class="hidden">
-        <div id="popup">
-          <div id="message"></div>
-        </div>
-        <a href="#popup" id="popuplink"></a>
-    
-        <div id="howitworks1">
-          <img src="/images/howitworks/step1.png" align="right" vspace="5" />
-          <p>When you first get to salt mines radio and log in to your Rdio account, you'll start listening to the play queue. If you like what you see coming up, you don't have to do anything else! Just enjoy!</p>
-          <p>If you would like to add some specific songs to the upcoming queue, though, you can start by clicking on the "Request a song" bar at the top of the page.</p>
-        </div>
-        
       </div>
-    </div>
+      <div class="row">   
+        <div class="row-md12">       
+          <section id="queue" ng-controller="QueueController">
+            <h1>Upcoming</h1>
+            <aside>
+              <h2>Welcome to salt mines radio!</h2>
+              <p>We believe that good music is a key ingredient to productivity, and Salt Mines Radio is what fuels us. Here is what we're listening to right now, and what's coming up next. Click "Listen here" to listen along with us. Or, better yet, <a href="http://saltmines.us">join us at The Salt Mines</a> and listen and request along with us!</p>
+            </aside>      
+            <ol>
+              <li ng-repeat="track in queue">
+                <span class="name">{{track.name}}</span>
+                <span class="artist">{{track.artist}}</span>
+              </li>
+            </ol>
+          </section>
+        </div>
+      </div>
+    </div>   
     
+    <div id="RdioStream"></div>
+    <div id="RdioPreview"></div>      
+    <div class="hidden">
+      <div id="popup">
+        <div id="message"></div>
+      </div>
+      <a href="#popup" id="popuplink"></a>
+  
+      <div id="howitworks1">
+        <img src="/images/howitworks/step1.png" align="right" vspace="5" />
+        <p>When you first get to salt mines radio and log in to your Rdio account, you'll start listening to the play queue. If you like what you see coming up, you don't have to do anything else! Just enjoy!</p>
+        <p>If you would like to add some specific songs to the upcoming queue, though, you can start by clicking on the "Request a song" bar at the top of the page.</p>
+      </div>
+      
+    </div>
+      
     <footer>
       <div class="details">
         &copy; 2014 salt mines radio      </div>
