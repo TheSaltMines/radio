@@ -10,10 +10,17 @@ radioApp.controller('CatalogController', ['$scope', '$http', function($scope, $h
     });
   }
   
-  $scope.getTrackDetail = function($event, $albumIndex, $trackIndex) {
+  $scope.getTrackDetail = function($albumIndex, $trackIndex) {
     $scope.selectedArtist.selectedAlbum = $scope.selectedArtist[$albumIndex];
     $scope.selectedArtist.selectedAlbum.selectedTrack = $scope.selectedArtist.selectedAlbum.tracks[$trackIndex];
-    console.log($scope.selectedArtist.selectedAlbum);
+    $scope.toggleModal();
+  }
+  
+  $scope.queueTrack = function($trackKey) {
+    $http.get('/controller.php?r=queue&key='+$trackKey).success(function(data) {
+      
+    });
+    QueueService.reloadQueue();    
     $scope.toggleModal();
   }
   
