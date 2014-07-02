@@ -1,4 +1,4 @@
-radioApp.controller('QueueController', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
+$app.controller('QueueController', ['$scope', '$http', '$interval', function($scope, $http, $interval, QueueService) {
 
   $scope.update = function () {
     $http.get('/controller.php?r=getQueue').success(function(data) {
@@ -10,10 +10,8 @@ radioApp.controller('QueueController', ['$scope', '$http', '$interval', function
   $interval(function() {
     $scope.update();
   }, 15000);
-/*
   
   $scope.$on('reloadQueue', function() {
     $scope.update();
   });
-*/
 }]);

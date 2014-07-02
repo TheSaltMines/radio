@@ -1,4 +1,4 @@
-radioApp.directive('modalDialog', function() {
+$app.directive('modalDialog', function() {
   return {
     restrict: 'E',
     scope: {

@@ -5,11 +5,11 @@
 		<title></title>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
 		<script type="text/javascript" src="app.js"></script>		
-		<script type="text/javascript" src="services/QueueService.js"></script>				
 		<script type="text/javascript" src="controllers/CatalogController.js"></script>
-		<script type="text/javascript" src="controllers/QueueController.js"></script>
+		<script type="text/javascript" src="controllers/QueueController.js"></script>		
+		<script type="text/javascript" src="services/QueueService.js"></script>
 		<script type="text/javascript" src="directives.js"></script>
-		<script type="text/javascript" src="filters.js"></script>		
+		<script type="text/javascript" src="filters.js"></script>
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" type="text/css" />
 		<link rel="stylesheet" href="css/style.css" type="text/css" />
 	</head>
@@ -36,7 +36,7 @@
                   <img ng-src="{{album.icon}}" width="125" height="125" />
                   <h2>{{album.artist}}: {{album.name}}</h2>
                   <ol>
-                    <li ng-repeat="track in album.tracks" value="{{track.trackNum}}" ng-click="getTrackDetail($parent.$index, $index)" ng-dblclick="queueTrack(track.key)">{{track.name}}</li>
+                    <li ng-repeat="track in album.tracks" value="{{track.trackNum}}" ng-click="getTrackDetail($parent.$index, $index)">{{track.name}}</li>
                   </ol>
                 </li>
               </ul>
@@ -48,7 +48,7 @@
             <h2>{{selectedArtist.selectedAlbum.selectedTrack.name}}</h2>
             <h3>{{selectedArtist.selectedAlbum.selectedTrack.artist}} - {{selectedArtist.selectedAlbum.name}}</h3>
             <h4>{{selectedArtist.selectedAlbum.selectedTrack.duration | duration}}</h4>  
-            <button ng-click="queueTrack(selectedArtist.selectedAlbum.selectedTrack.key)">Request</button>
+            <button ng-click="queueTrack(selectedArtist.selectedAlbum.selectedTrack.key)" ng-disabled="working">Request</button>
           </modal-dialog>           
         </section>
       </div>

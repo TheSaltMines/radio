@@ -1,5 +1,4 @@
-angular.module('filters', []).
-  filter('duration', function () {
+$app.filter('duration', function () {
     return function (seconds) {
       if (seconds) {
         if (seconds<60) {

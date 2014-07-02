@@ -1,5 +1,4 @@
-angular.module('radioApp.services', []).
-  factory('QueueService', function($rootScope) {
+$app.factory('QueueService', function($rootScope) {
     var serviceInstance = {};
 
     serviceInstance.reloadQueue = function() {

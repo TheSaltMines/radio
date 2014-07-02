@@ -1,5 +1,7 @@
-radioApp.controller('CatalogController', ['$scope', '$http', function($scope, $http) {
+$app.controller('CatalogController', ['$scope', '$http', 'QueueService', function($scope, $http, QueueService) {
   $scope.modalShown = false;
+  $scope.working = false;
+  
   $http.get('/data.php').success(function(data) {
     $scope.artists = data;
   });
@@ -17,11 +19,13 @@ radioApp.controller('CatalogController', ['$scope', '$http', function($scope, $h
   }
   
   $scope.queueTrack = function($trackKey) {
+    $scope.working = true;
     $http.get('/controller.php?r=queue&key='+$trackKey).success(function(data) {
-      
+      QueueService.reloadQueue();    
+      $scope.toggleModal();      
+    }).then(function() {
+      $scope.working = false;
     });
-    QueueService.reloadQueue();    
-    $scope.toggleModal();
   }
   
   $scope.toggleModal = function() {
