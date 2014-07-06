@@ -24,7 +24,7 @@
             <section id="artists">
               <h1>Artists <input type="text" ng-model="artistFilter" placeholder="filter" /></h1>
               <ul>
-                <li class="artist closed" ng-repeat="artist in artists | filter:artistFilter" ng-click="getArtistDetail($event, artist.key)">{{artist.name}}</li>  
+                <li class="artist" ng-repeat="artist in artists | filter:artistFilter" ng-click="getArtistDetail($event, artist.key)">{{artist.name}}</li>  
               </ul>
             </section>    
           </div>
@@ -32,11 +32,11 @@
             <section id="albums" ng-show="selectedArtist.length>0">
               <h1>Albums <input type="text" ng-model="albumFilter" placeholder="filter" /></h1>
               <ul>
-                <li ng-repeat="album in selectedArtist | filter:albumFilter">
+                <li class="album" ng-repeat="album in selectedArtist | filter:albumFilter">
                   <img ng-src="{{album.icon}}" width="125" height="125" />
-                  <h2>{{album.artist}}: {{album.name}}</h2>
                   <ol>
-                    <li ng-repeat="track in album.tracks" value="{{track.trackNum}}" ng-click="getTrackDetail($parent.$index, $index)">{{track.name}}</li>
+                    <lh>{{album.artist}}: {{album.name}}</lh>                  
+                    <li class="track" ng-repeat="track in album.tracks" value="{{track.trackNum}}" ng-click="getTrackDetail($parent.$index, $index)">{{track.name}}</li>
                   </ol>
                 </li>
               </ul>

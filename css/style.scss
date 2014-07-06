@@ -1,0 +1,54 @@
+$textColor: #333;
+$linkColor: #66F;
+$baseFontSize: 12px;
+
+h1 {
+  font-size: $baseFontSize * 2;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: $baseFontSize * 1.8;
+  font-weight: bold;  
+}
+
+h3 {
+  font-size: $baseFontSize * 1.6;
+  font-weight: bold;  
+}
+
+h4 {
+  font-size: $baseFontSize * 1.4;
+  font-weight: bold;  
+}
+
+
+section#artists ul, section#albums ul {
+  color: $linkColor;
+  height: 300px;
+  overflow: scroll;
+  list-style: none;
+  padding: 0;
+  
+  li {
+    cursor: pointer;
+    
+    &:hover {
+      text-decoration: underline;
+    }    
+  }  
+}
+
+section#albums li.album {
+  clear: both;
+  
+  ol, img {
+    float: left;    
+  }
+
+  lh {
+    font-size: $baseFontSize * 1.2;
+    font-weight: bold;
+    color: $textColor;
+  }  
+}

@@ -1,45 +1,45 @@
-body {
-  background-color: #FFF;
-}
-
-.ng-modal-overlay {
-  /* A dark translucent div that covers the whole screen */
-  position:absolute;
-  z-index:9999;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:#000000;
-  opacity: 0.8;
-}
-.ng-modal-dialog {
-  /* A centered div above the overlay with a box shadow. */
-  z-index:10000;
-  position: absolute;
-  width: 50%; /* Default */
-  /* Center the dialog */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-
-  background-color: #FFF;
-  box-shadow: 4px 4px 80px #000;
-}
-.ng-modal-dialog-content {
-  padding:10px;
-  text-align: left;
-}
-.ng-modal-close {
-  position: absolute;
-  top: 3px;
-  right: 5px;
-  padding: 5px;
-  cursor: pointer;
-  font-size: 120%;
-  display: inline-block;
+h1 {
+  font-size: 24px;
   font-weight: bold;
-  font-family: 'arial', 'sans-serif';
+}
+
+h2 {
+  font-size: 21.6px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 19.2px;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 16.8px;
+  font-weight: bold;
+}
+
+section#artists ul, section#albums ul {
+  color: #6666ff;
+  height: 300px;
+  overflow: scroll;
+  list-style: none;
+  padding: 0;
+}
+section#artists ul li, section#albums ul li {
+  cursor: pointer;
+}
+section#artists ul li:hover, section#albums ul li:hover {
+  text-decoration: underline;
+}
+
+section#albums li.album {
+  clear: both;
+}
+section#albums li.album ol, section#albums li.album img {
+  float: left;
+}
+section#albums li.album lh {
+  font-size: 14.4px;
+  font-weight: bold;
+  color: #333333;
 }

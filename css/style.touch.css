@@ -1,9 +1,0 @@
-#queue .queuetrack {
-  width: 320px;
-  text-align: center;
-  display: none;
-}
-
-#queue .queuetrack.current {
-  display: block !important;
-}
