@@ -9,7 +9,7 @@ $app.controller('QueueController', ['$scope', '$http', '$interval', function($sc
   $scope.update();
   $interval(function() {
     $scope.update();
-  }, 15000);
+  }, 150000);
   
   $scope.$on('reloadQueue', function() {
     $scope.update();

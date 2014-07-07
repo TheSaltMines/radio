@@ -4,22 +4,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">		
 		<title></title>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-animate.min.js"></script>		
 		<script type="text/javascript" src="app.js"></script>		
 		<script type="text/javascript" src="controllers/CatalogController.js"></script>
 		<script type="text/javascript" src="controllers/QueueController.js"></script>		
 		<script type="text/javascript" src="services/QueueService.js"></script>
 		<script type="text/javascript" src="directives.js"></script>
 		<script type="text/javascript" src="filters.js"></script>
+    <script type="text/javascript" src="http://use.typekit.com/goy0iya.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" type="text/css" />
 		<link rel="stylesheet" href="css/style.css" type="text/css" />
 	</head>
 	<body>	  
     <header>
+      radio.saltmines.us
     </header>
     <div class="container">
-      <div class="row">
-        <section id="collection" ng-controller="CatalogController">
-          <h1>Collection</h1>
+      <section id="collection" ng-controller="CatalogController">
+        <header ng-click="toggleCatalog()">Request</header>
+        <div class="row" ng-show="catalogVisible" ng-animate="{show: 'animate-show', hide: 'animate-hide' }">
           <div class="col-md-6">
             <section id="artists">
               <h1>Artists <input type="text" ng-model="artistFilter" placeholder="filter" /></h1>
@@ -49,9 +53,9 @@
             <h3>{{selectedArtist.selectedAlbum.selectedTrack.artist}} - {{selectedArtist.selectedAlbum.name}}</h3>
             <h4>{{selectedArtist.selectedAlbum.selectedTrack.duration | duration}}</h4>  
             <button ng-click="queueTrack(selectedArtist.selectedAlbum.selectedTrack.key)" ng-disabled="working">Request</button>
-          </modal-dialog>           
-        </section>
-      </div>
+          </modal-dialog>    
+        </div>                 
+      </section>
       <div class="row">   
         <div class="row-md12">       
           <section id="queue" ng-controller="QueueController">
@@ -61,9 +65,11 @@
               <p>We believe that good music is a key ingredient to productivity, and Salt Mines Radio is what fuels us. Here is what we're listening to right now, and what's coming up next. Click "Listen here" to listen along with us. Or, better yet, <a href="http://saltmines.us">join us at The Salt Mines</a> and listen and request along with us!</p>
             </aside>      
             <ol>
-              <li ng-repeat="track in queue">
-                <span class="name">{{track.name}}</span>
-                <span class="artist">{{track.artist}}</span>
+              <li class="track" ng-repeat="track in queue" ng-style="{ 'background-image': 'url({{track.icon}})' }">
+                <span class="detail">
+                  <div class="name">{{track.name}}</div>
+                  <div class="artist">{{track.artist}}</div>
+                </span>
               </li>
             </ol>
           </section>

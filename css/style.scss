@@ -1,25 +1,51 @@
+$themeColor: #666;
 $textColor: #333;
 $linkColor: #66F;
 $baseFontSize: 12px;
+$footerPadding: 10px;
+$queueArtSize: 200px;
+$baseFont: "Century Gothic", "MS Trebuchet", Verdana; 
+$specialFont: "museo-sans-1","museo-sans-2","Century Gothic","Verdana",sans-serif;
+
+body {
+  margin: 0 0 $baseFontSize*2;
+  padding: 0;
+  height: 100%;
+  font-family: $baseFont; 
+}
 
 h1 {
+  font-family: $specialFont;
   font-size: $baseFontSize * 2;
   font-weight: bold;
 }
 
 h2 {
+  font-family: $specialFont;
   font-size: $baseFontSize * 1.8;
   font-weight: bold;  
 }
 
 h3 {
+  font-family: $specialFont;
   font-size: $baseFontSize * 1.6;
   font-weight: bold;  
 }
 
 h4 {
+  font-family: $specialFont;
   font-size: $baseFontSize * 1.4;
   font-weight: bold;  
+}
+
+html {
+  font-family: $specialFont;
+  position: relative;
+  min-height: 100%;
+}
+
+section#collection header {
+  background-color: lighten($themeColor, 30%);
 }
 
 
@@ -51,4 +77,65 @@ section#albums li.album {
     font-weight: bold;
     color: $textColor;
   }  
+}
+
+section#queue li.track {
+  list-style: none;
+  height: $queueArtSize;
+  width: $queueArtSize;
+  float: left;
+  position: relative;
+  border: 1px solid $textColor;
+  
+  .detail {
+    display: block;
+    position: absolute;
+    top:  155px;
+    height: 43px;
+    color: #CCC;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    padding: 5px 10px;
+    
+    .name {
+      font-weight: bold;
+      line-height: 1.0em;
+    }
+    
+    .artist {
+      font-size: $baseFontSize*0.9;
+    }
+  }
+}
+
+header {
+  width: 100%;
+  background-color: $themeColor;
+  color: invert($themeColor);
+  font-weight: bold;
+  font-size: $baseFontSize*1.2;
+  margin: 0 0 30px;
+  padding: $baseFontSize/4 $footerPadding;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $baseFontSize*2;
+  padding: 5px 0;
+  background-color: $themeColor;
+  color: invert($themeColor);
+  clear: both;
+  
+  div.details {
+    margin-top: $baseFontSize/4;
+    padding-left: $footerPadding;
+    float: left
+  }
+  
+  div.rdio {
+    padding-right: $footerPadding;
+    float: right;
+  }
 }

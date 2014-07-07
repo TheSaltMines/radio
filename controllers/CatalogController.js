@@ -1,6 +1,7 @@
 $app.controller('CatalogController', ['$scope', '$http', 'QueueService', function($scope, $http, QueueService) {
   $scope.modalShown = false;
   $scope.working = false;
+  $scope.catalogVisible = false;
   
   $http.get('/data.php').success(function(data) {
     $scope.artists = data;
@@ -31,4 +32,8 @@ $app.controller('CatalogController', ['$scope', '$http', 'QueueService', functio
   $scope.toggleModal = function() {
     $scope.modalShown = !$scope.modalShown;
   };    
+  
+  $scope.toggleCatalog = function() {
+    $scope.catalogVisible = !$scope.catalogVisible;
+  }
 }]);
